@@ -111,7 +111,7 @@ tr:hover td{background:#f8f9ff}
     <div class="h1">GoTeam Starters Dashboard</div>
     <div class="sub">New Hire Onboarding Tracker · Nov 2022 Onwards</div>
   </div>
-  <div class="last-updated">Last updated: 22 Jun 2026 12:21</div>
+  <div class="last-updated">Last updated: 22 Jun 2026 12:25</div>
 </div>
 
 <div class="controls">
@@ -177,7 +177,7 @@ tr:hover td{background:#f8f9ff}
         <span class="tog tog-morning active" id="tog-Morning" onclick="toggleShift('Morning',this)">Morning</span>
         <span class="tog tog-night active" id="tog-Night" onclick="toggleShift('Night',this)">Night</span>
         <span class="tog tog-afternoon active" id="tog-Afternoon" onclick="toggleShift('Afternoon',this)">Afternoon</span>
-        <span class="tog tog-none active" id="tog-shift-null" onclick="toggleShift(null,this)">No Shift</span>
+        
         <span class="filter-label" style="margin-left:8px">Location:</span>
         <span class="tog tog-online active" id="tog-Online" onclick="toggleLoc('Online',this)">Online</span>
         <span class="tog tog-onsite active" id="tog-Onsite" onclick="toggleLoc('Onsite',this)">Onsite</span>
@@ -220,7 +220,7 @@ const RAW = [{"d":"Dean","n":"Dean","p":"Dean","c":"Dean","peme":"Cristine/Khen"
 let F = RAW.slice();
 let listSortField = 'd', listSortDir = -1;
 let curPage = 1; const PAGE_SIZE = 50;
-let activeShifts = new Set(['Morning','Night','Afternoon',null]);
+let activeShifts = new Set(['Morning','Night','Afternoon']);
 let activeLocs   = new Set(['Online','Onsite','Hybrid',null]);
 
 const charts = {};
