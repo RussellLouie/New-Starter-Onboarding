@@ -111,7 +111,7 @@ tr:hover td{background:#f8f9ff}
     <div class="h1">GoTeam Starters Dashboard</div>
     <div class="sub">New Hire Onboarding Tracker · Nov 2022 Onwards</div>
   </div>
-  <div class="last-updated">Last updated: 22 Jun 2026 11:01</div>
+  <div class="last-updated">Last updated: 22 Jun 2026 11:55</div>
 </div>
 
 <div class="controls">
@@ -120,7 +120,7 @@ tr:hover td{background:#f8f9ff}
   <label>To</label>
   <input type="date" id="dTo">
   <div class="quick-btns">
-    <button class="qbtn" onclick="setQ(7)">This Week</button>
+    <button class="qbtn" onclick="setThisWeek()">This Week</button>
     <button class="qbtn" onclick="setQ(30)">This Month</button>
     <button class="qbtn" onclick="setQ(90)">Last 3 Mo</button>
     <button class="qbtn" onclick="setQ(180)">Last 6 Mo</button>
@@ -230,6 +230,17 @@ function destroyChart(id){ if(charts[id]){ charts[id].destroy(); delete charts[i
 function today(){ return new Date().toISOString().slice(0,10); }
 function daysAgo(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); }
 
+function setThisWeek(){
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun,1=Mon,...
+  const diffToMon = (day === 0) ? -6 : 1 - day;
+  const mon = new Date(now); mon.setDate(now.getDate() + diffToMon);
+  const sun = new Date(mon); sun.setDate(mon.getDate() + 6);
+  document.getElementById('dFrom').value = mon.toISOString().slice(0,10);
+  document.getElementById('dTo').value = sun.toISOString().slice(0,10);
+  document.querySelectorAll('.qbtn').forEach(b=>b.classList.remove('active'));
+  applyFilter();
+}
 function setQ(days){
   document.getElementById('dFrom').value = daysAgo(days);
   document.getElementById('dTo').value = today();
