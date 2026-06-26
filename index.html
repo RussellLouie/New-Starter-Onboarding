@@ -111,7 +111,7 @@ tr:hover td{background:#f8f9ff}
     <div class="h1">GoTeam Starters Dashboard</div>
     <div class="sub">New Hire Onboarding Tracker · Nov 2022 Onwards</div>
   </div>
-  <div class="last-updated">Last updated: 26 Jun 2026 11:53</div>
+  <div class="last-updated">Last updated: 26 Jun 2026 12:10</div>
 </div>
 
 <div class="controls">
@@ -232,15 +232,12 @@ function today(){ return new Date().toISOString().slice(0,10); }
 function daysAgo(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); }
 
 function setNextWeek(){
-  const d=new Date();
-  const day=d.getDay(); // 0=Sun,1=Mon,...
-  const toMonday=day===0?1:8-day; // days until next Monday
-  const nextMon=new Date(d); nextMon.setDate(d.getDate()+toMonday);
-  const nextSun=new Date(nextMon); nextSun.setDate(nextMon.getDate()+6);
-  document.getElementById('dFrom').value=nextMon.toISOString().slice(0,10);
-  document.getElementById('dTo').value=nextSun.toISOString().slice(0,10);
-  document.querySelectorAll('.qbtn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
+  var d=new Date(), day=d.getDay(), toMon=day===0?1:8-day;
+  var nm=new Date(d); nm.setDate(d.getDate()+toMon);
+  var ns=new Date(nm); ns.setDate(nm.getDate()+6);
+  document.getElementById('dFrom').value=nm.toISOString().slice(0,10);
+  document.getElementById('dTo').value=ns.toISOString().slice(0,10);
+  document.querySelectorAll('.qbtn').forEach(function(b){b.classList.remove('active');});
   applyFilter();
 }
 function setQ(days){
@@ -570,4 +567,21 @@ function renderList(){
 function goPage(p){ curPage=p; renderList(); }
 
 // ── RENDER ALL ──────────────────────────────────────────────────────────────
-function rend
+function renderAll(){
+  const active=document.querySelector('.tab-panel.active')?.id;
+  renderKPIs();
+  if(active==='tab-overview'){ renderTrend(); renderLocChart(); renderShiftChart(); renderClientChart(); }
+  if(active==='tab-day1'){ renderLocGrid(); renderLocTrend(); renderShiftLocChart(); }
+  if(active==='tab-compliance'){ renderCompliance(); renderCompTrend(); }
+  if(active==='tab-list'){ renderList(); }
+  if(active==='tab-clients'){ renderClientsTab(); }
+}
+
+document.getElementById('dFrom').addEventListener('change',applyFilter);
+document.getElementById('dTo').addEventListener('change',applyFilter);
+
+// Init
+renderAll();
+</script>
+</body>
+</html>
