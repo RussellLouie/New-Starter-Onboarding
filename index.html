@@ -120,6 +120,7 @@ tr:hover td{background:#f8f9ff}
   <label>To</label>
   <input type="date" id="dTo">
   <div class="quick-btns">
+    <button class="qbtn" onclick="setNextWeek()">Next Week</button>
     <button class="qbtn" onclick="setQ(7)">This Week</button>
     <button class="qbtn" onclick="setQ(30)">This Month</button>
     <button class="qbtn" onclick="setQ(90)">Last 3 Mo</button>
@@ -230,6 +231,18 @@ function destroyChart(id){ if(charts[id]){ charts[id].destroy(); delete charts[i
 function today(){ return new Date().toISOString().slice(0,10); }
 function daysAgo(n){ const d=new Date(); d.setDate(d.getDate()-n); return d.toISOString().slice(0,10); }
 
+function setNextWeek(){
+  const d=new Date();
+  const day=d.getDay(); // 0=Sun,1=Mon,...
+  const toMonday=day===0?1:8-day; // days until next Monday
+  const nextMon=new Date(d); nextMon.setDate(d.getDate()+toMonday);
+  const nextSun=new Date(nextMon); nextSun.setDate(nextMon.getDate()+6);
+  document.getElementById('dFrom').value=nextMon.toISOString().slice(0,10);
+  document.getElementById('dTo').value=nextSun.toISOString().slice(0,10);
+  document.querySelectorAll('.qbtn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  applyFilter();
+}
 function setQ(days){
   document.getElementById('dFrom').value = daysAgo(days);
   document.getElementById('dTo').value = today();
@@ -557,21 +570,4 @@ function renderList(){
 function goPage(p){ curPage=p; renderList(); }
 
 // ── RENDER ALL ──────────────────────────────────────────────────────────────
-function renderAll(){
-  const active=document.querySelector('.tab-panel.active')?.id;
-  renderKPIs();
-  if(active==='tab-overview'){ renderTrend(); renderLocChart(); renderShiftChart(); renderClientChart(); }
-  if(active==='tab-day1'){ renderLocGrid(); renderLocTrend(); renderShiftLocChart(); }
-  if(active==='tab-compliance'){ renderCompliance(); renderCompTrend(); }
-  if(active==='tab-list'){ renderList(); }
-  if(active==='tab-clients'){ renderClientsTab(); }
-}
-
-document.getElementById('dFrom').addEventListener('change',applyFilter);
-document.getElementById('dTo').addEventListener('change',applyFilter);
-
-// Init
-renderAll();
-</script>
-</body>
-</html>
+function rend
